@@ -1,38 +1,87 @@
-Pod::Spec.new do |s|
-  s.name         = "SensorsAnalyticsSDK"
-  s.version      = "1.7.1"
-  s.summary      = "The offical iOS SDK of Sensors Analytics."
-  s.homepage     = "http://www.sensorsdata.cn"
-  s.source       = { :git => 'https://github.com/sensorsdata/sa-sdk-ios.git', :tag => "v#{s.version}" } 
-  s.license = { :type => "Apache License, Version 2.0" }
-  s.author = { "Yuhan ZOU" => "zouyuhan@sensorsdata.cn" }
-  s.platform = :ios, "7.0"
-  s.default_subspec = 'core'
-  s.frameworks = 'UIKit', 'Foundation', 'SystemConfiguration', 'CoreTelephony', 'CoreGraphics', 'QuartzCore'
-  s.libraries = 'icucore', 'sqlite3', 'z'
+{
+  "name": "SensorsAnalyticsSDK",
+  "version": "1.7.1",
+  "summary": "The offical iOS SDK of Sensors Analytics.",
+  "homepage": "http://www.sensorsdata.cn",
+  "source": {
+    "git": "https://github.com/sensorsdata/sa-sdk-ios.git",
+    "tag": "v1.7.1"
+  },
+  "license": {
+    "type": "Apache License, Version 2.0"
+  },
+  "authors": {
+    "Yuhan ZOU": "zouyuhan@sensorsdata.cn"
+  },
+  "platforms": {
+    "ios": "7.0"
+  },
+  "default_subspecs": "core",
+  "frameworks": [
+    "UIKit",
+    "Foundation",
+    "SystemConfiguration",
+    "CoreTelephony",
+    "CoreGraphics",
+    "QuartzCore"
+  ],
+  "libraries": [
+    "icucore",
+    "sqlite3",
+    "z"
+  ],
+  "subspecs": [
+    {
+      "name": "core",
+      "source_files": [
+        "SensorsAnalyticsSDK/SensorsAnalyticsSDK",
+        "SensorsAnalyticsSDK/SensorsAnalyticsSDK/*.{h,m}"
+      ],
+      "public_header_files": "SensorsAnalyticsSDK/SensorsAnalyticsSDK/SensorsAnalyticsSDK.h"
+    },
+    {
+      "name": "IDFA",
+      "dependencies": {
+        "SensorsAnalyticsSDK/core": [
 
-  s.subspec 'core' do |c|
-	c.source_files  = "SensorsAnalyticsSDK/SensorsAnalyticsSDK", "SensorsAnalyticsSDK/SensorsAnalyticsSDK/*.{h,m}"
-	c.public_header_files = "SensorsAnalyticsSDK/SensorsAnalyticsSDK/SensorsAnalyticsSDK.h"
-  end
+        ]
+      },
+      "pod_target_xcconfig": {
+        "GCC_PREPROCESSOR_DEFINITIONS": "SENSORS_ANALYTICS_IDFA=1"
+      }
+    },
+    {
+      "name": "LOG",
+      "dependencies": {
+        "SensorsAnalyticsSDK/core": [
 
-  s.subspec 'IDFA' do |f|
-	f.dependency 'SensorsAnalyticsSDK/core'
-	f.pod_target_xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'SENSORS_ANALYTICS_IDFA=1'}
-  end
+        ]
+      },
+      "pod_target_xcconfig": {
+        "GCC_PREPROCESSOR_DEFINITIONS": "SENSORS_ANALYTICS_ENABLE_LOG=1"
+      }
+    },
+    {
+      "name": "DISABLE_CALL_STACK",
+      "dependencies": {
+        "SensorsAnalyticsSDK/core": [
 
-  s.subspec 'LOG' do |f|
-        f.dependency 'SensorsAnalyticsSDK/core'
-        f.pod_target_xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'SENSORS_ANALYTICS_ENABLE_LOG=1'}
-  end
+        ]
+      },
+      "pod_target_xcconfig": {
+        "GCC_PREPROCESSOR_DEFINITIONS": "SENSORS_ANALYTICS_DISABLE_CALL_STACK=1"
+      }
+    },
+    {
+      "name": "DISABLE_VTRACK",
+      "dependencies": {
+        "SensorsAnalyticsSDK/core": [
 
-  s.subspec 'DISABLE_CALL_STACK' do |f|
-        f.dependency 'SensorsAnalyticsSDK/core'
-        f.pod_target_xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'SENSORS_ANALYTICS_DISABLE_CALL_STACK=1'}
-  end
-
-  s.subspec 'DISABLE_VTRACK' do |f|
-        f.dependency 'SensorsAnalyticsSDK/core'
-        f.pod_target_xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'SENSORS_ANALYTICS_DISABLE_VTRACK=1'}
-  end
-end
+        ]
+      },
+      "pod_target_xcconfig": {
+        "GCC_PREPROCESSOR_DEFINITIONS": "SENSORS_ANALYTICS_DISABLE_VTRACK=1"
+      }
+    }
+  ]
+}
